@@ -2,7 +2,4 @@
 /.idea
 .DS_Store
 /build
-#.idea/workspace.xml
-
-# Gradle:
-#.idea/gradle.xml
+/gradle/
