@@ -7,7 +7,7 @@ typealias ElfData = Iterable<Calories>
 
 fun parseInput(data: String): ElfData =
     data.split("\n\n")
-        .map { it.split('\n').map(Integer::parseInt).sum()}
+        .map { it.split('\n').map(Integer::parseInt).sum() }
 
 fun problem1(elfData: ElfData): Calories =
     elfData.max()
