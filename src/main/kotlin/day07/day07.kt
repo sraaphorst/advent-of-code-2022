@@ -48,14 +48,14 @@ fun parseInput(data: String): Entry {
         // 3. We have hit a file. Add it to the list of entries and continue processing.
         lines.first().first().isDigit() -> {
             val (size, name) = lines.first().split(' ')
-            aux(lines.drop(1), entries + listOf(File(name, size.toInt())))
+            aux(lines.drop(1), entries + File(name, size.toInt()))
         }
 
         // 4. We reached a CDLS, which indicates the start of a directory.
         lines.first().startsWith("CDLS") -> {
             val dirName = lines.first().split(' ')[1]
             val (remainingLines, dirContents) = aux(lines.drop(1))
-            aux(remainingLines, entries + listOf(Directory(dirName, dirContents)))
+            aux(remainingLines, entries + Directory(dirName, dirContents))
         }
 
         // This should never happen.
@@ -70,7 +70,7 @@ fun extractDirectories(entry: Entry): List<Entry> {
         entries.isEmpty() -> directories
         entries.first() is Directory ->
             aux(entries.drop(1) + (entries.first() as Directory).contents,
-            directories + listOf(entries.first()))
+            directories + entries.first())
         else -> aux(entries.drop(1), directories)
     }
     return aux()
