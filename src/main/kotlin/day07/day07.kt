@@ -29,7 +29,7 @@ fun parseInput(data: String): Entry {
     //    we don't need to know what they are named in advance.
     val data2 = Regex("""\p{Sc}\s*cd\s+([^.\s]+)\n\p{Sc}\s+ls""").replace(data, "CDLS $1")
     val data3 = Regex("""\p{Sc}\s*cd\s+\.\.""").replace(data2, "BACK")
-    val dataLines = data3.split('\n').filter { !it.startsWith("dir") }
+    val dataLines = data3.split('\n').filterNot { it.startsWith("dir") }
 
     // Parsing:
     // 1. Stopping condition: One entry and it is named "/".
