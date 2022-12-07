@@ -27,14 +27,9 @@ fun parseInput(data: String): Entry {
     // 2. Make "$ cd .." into "BACK".
     // 3. Remove the "dir dirname" lines as they will be redundant. We always CDLS into the directories so
     //    we don't need to know what they are named in advance.
-    val data1 = Regex("""\p{Sc}\s*cd\s+([^.\s]+)\n\p{Sc}\s+ls""").replace(data, "CDLS $1")
-    val data2 = Regex("""\p{Sc}\s*cd\s+\.\.""").replace(data1, "BACK")
-    val data3 = Regex("""dir\s+\S+\n""").replace(data2, "")
-
-    fun parseFile(line: String): File {
-        val (size, name) = line.split(' ')
-        return File(name, size.toInt())
-    }
+    val data2 = Regex("""\p{Sc}\s*cd\s+([^.\s]+)\n\p{Sc}\s+ls""").replace(data, "CDLS $1")
+    val data3 = Regex("""\p{Sc}\s*cd\s+\.\.""").replace(data2, "BACK")
+    val dataLines = data3.split('\n').filter { !it.startsWith("dir") }
 
     // Parsing:
     // 1. Stopping condition: One entry and it is named "/".
@@ -43,7 +38,7 @@ fun parseInput(data: String): Entry {
     // 4. CDLS: Starting a new directory.
     //          Start new call to aux with following lines to get directory entries and remaining lines after parsing.
     //          Add new directory to entries and recurse with remaining lines from call above to aux.
-    fun aux(lines: Lines = data3.split('\n'),
+    tailrec fun aux(lines: Lines = dataLines,
             entries: List<Entry> = emptyList()): Pair<Lines, List<Entry>> = when {
         // 1. We have processed all the lines and have backtracked down to the base directory.
         lines.isEmpty() && entries.size == 1 && entries.first().name == "/" -> Pair(lines, entries)
@@ -52,7 +47,10 @@ fun parseInput(data: String): Entry {
         lines.isEmpty() || lines.first() == "BACK" -> Pair(lines.drop(1), entries)
 
         // 3. We have hit a file. Add it to the list of entries and continue processing.
-        lines.first().first().isDigit() -> aux(lines.drop(1), entries + listOf(parseFile(lines.first())))
+        lines.first().first().isDigit() -> {
+            val (size, name) = lines.first().split(' ')
+            aux(lines.drop(1), entries + listOf(File(name, size.toInt())))
+        }
 
         // 4. We reached a CDLS, which indicates the start of a directory.
         lines.first().startsWith("CDLS") -> {
@@ -69,7 +67,7 @@ fun parseInput(data: String): Entry {
 }
 
 fun extractDirectories(entry: Entry): List<Entry> {
-    fun aux(entries: List<Entry> = listOf(entry), directories: List<Entry> = emptyList()): List<Entry> = when {
+    tailrec fun aux(entries: List<Entry> = listOf(entry), directories: List<Entry> = emptyList()): List<Entry> = when {
         entries.isEmpty() -> directories
         entries.first() is Directory ->
             aux(entries.drop(1) + (entries.first() as Directory).contents,
@@ -85,7 +83,7 @@ fun problem1(data: Entry): Int =
 fun problem2(data: Entry): Int {
     val unusedSpace = 70000000 - data.size
     val spaceNeeded = 30000000 - unusedSpace
-    return extractDirectories(data).filter { it.size >= spaceNeeded }.map(Entry::size).min()
+    return extractDirectories(data).filter { it.size >= spaceNeeded }.minOf(Entry::size)
 }
 
 fun main() {
