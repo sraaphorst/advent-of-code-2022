@@ -24,12 +24,12 @@ class Day06Test {
     }
 
     @Test
-    fun `Problem 1`() {
-        assertEquals(examples1.map{ uniqueSubstring(it, 4) }, listOf(5, 6, 10, 11))
+    fun `Problem 1 example`() {
+        assertEquals(examples1.map(::problem1), listOf(5, 6, 10, 11))
     }
 
     @Test
-    fun `Problem 2`() {
-        assertEquals(examples2.map{ uniqueSubstring(it, 14) }, listOf(19, 23, 23, 29, 26))
+    fun `Problem 2 example`() {
+        assertEquals(examples2.map(::problem2), listOf(19, 23, 23, 29, 26))
     }
 }

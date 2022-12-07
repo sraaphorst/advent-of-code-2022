@@ -18,12 +18,12 @@ class Day03Test {
     }
 
     @Test
-    fun `Problem 1`() {
+    fun `Problem 1 example`() {
         assertEquals(problem1(data), 157)
     }
 
     @Test
-    fun `Problem 2`() {
+    fun `Problem 2 example`() {
         assertEquals(problem2(data), 70)
     }
 }
