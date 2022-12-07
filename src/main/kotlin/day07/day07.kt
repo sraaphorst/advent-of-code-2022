@@ -2,8 +2,6 @@ package day07
 
 // By Sebastian Raaphorst, 2022.
 
-typealias Lines = List<String>
-
 abstract class Entry(val name: String, val size: Int) {
     abstract fun show(indent: Int = 0)
 }
@@ -38,8 +36,9 @@ fun parseInput(data: String): Entry {
     // 4. CDLS: Starting a new directory.
     //          Start new call to aux with following lines to get directory entries and remaining lines after parsing.
     //          Add new directory to entries and recurse with remaining lines from call above to aux.
-    tailrec fun aux(lines: Lines = dataLines,
-            entries: List<Entry> = emptyList()): Pair<Lines, List<Entry>> = when {
+    @Suppress("NON_TAIL_RECURSIVE_CALL")
+    tailrec fun aux(lines: List<String> = dataLines,
+                    entries: List<Entry> = emptyList()): Pair<List<String>, List<Entry>> = when {
         // 1. We have processed all the lines and have backtracked down to the base directory.
         lines.isEmpty() && entries.size == 1 && entries.first().name == "/" -> Pair(lines, entries)
 
