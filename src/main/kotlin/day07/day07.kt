@@ -77,7 +77,7 @@ fun extractDirectories(entry: Entry): List<Entry> {
 }
 
 fun problem1(data: Entry): Int =
-    extractDirectories(data).filter { it.size <  100000 }.map(Entry::size).sum()
+    extractDirectories(data).filter { it.size < 100000 }.map(Entry::size).sum()
 
 fun problem2(data: Entry): Int {
     val unusedSpace = 70000000 - data.size
