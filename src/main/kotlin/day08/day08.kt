@@ -1,6 +1,6 @@
 package day08
 
-import java.lang.Integer.max
+import kotlin.math.max
 
 // By Sebastian Raaphorst, 2022.
 
