@@ -2,7 +2,7 @@ package day07
 
 // By Sebastian Raaphorst, 2022.
 
-abstract class Entry(val name: String, val size: Int) {
+sealed class Entry(val name: String, val size: Int) {
     abstract fun show(indent: Int = 0)
 }
 
