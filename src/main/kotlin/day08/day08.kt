@@ -10,25 +10,33 @@ typealias Grid = Map<Int, Map<Int, TreeHeight>>
 typealias Coordinates = Pair<Int, Int>
 
 fun parseInput(data: String): Grid =
-    data.split('\n').withIndex().associate { (row, line) ->
-        row to line.toCharArray()
-            .map(Char::digitToInt)
-            .withIndex()
-            .associate { (col, entry) -> col to entry } }
+    data.split('\n')
+        .withIndex()
+        .associate { (row, line) ->
+            row to line.toCharArray()
+                .map(Char::digitToInt)
+                .withIndex()
+                .associate { (col, entry) -> col to entry } }
 
 fun extractRow(grid: Grid, rowIdx: Int): Line =
-    grid.getValue(rowIdx).toList().sortedBy { it.first }.map { it.second }
+    grid.getValue(rowIdx)
+        .toList()
+        .sortedBy { it.first }
+        .map { it.second }
 
 fun extractCol(grid: Grid, colIdx: Int): Line =
-    grid.toList().map { it.first to it.second.getValue(colIdx) }.sortedBy { it.first }.map{ it.second }
+    grid.toList()
+        .map { it.first to it.second.getValue(colIdx) }
+        .sortedBy { it.first }
+        .map{ it.second }
 
 /**
  * Given a line of trees, the line visibility is the number of trees of increasing height that we can
  * see looking down the line.
  */
 fun lineVisibility(line: Line): Set<Int> =
-    line.withIndex().fold(Pair<TreeHeight, Set<Int>>(-1, emptySet())) {
-        acc, curr ->
+    line.withIndex()
+        .fold(Pair<TreeHeight, Set<Int>>(-1, emptySet())) { acc, curr ->
             val (maxHeight, indices) = acc
             val (index, height) = curr
             val newHeight = max(maxHeight, height)
