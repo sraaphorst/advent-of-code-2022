@@ -28,7 +28,7 @@ fun <A, B> Pair<A, B>.swap(): Pair<B, A> =
     Pair(this.second, this.first)
 
 // A map where:
-// 1. Keys are the distance from the previous knot k1 to the next knot k2; and
+// 1. Keys are the difference between the coordinates of the previous (now moved) knot k1 and the next knot k2; and
 // 2. Values are how k2 should move to be adjacent to k1.
 val tailMoves: Map<Coordinates, Coordinates> = run {
     // No movement: the knots are on top of each other.
@@ -37,6 +37,7 @@ val tailMoves: Map<Coordinates, Coordinates> = run {
     )
 
     // Already adjacent: don't move.
+    // Negate first component to get entire map.
     val nonMoves = mapOf(
         Coordinates(1, 0) to ZERO,
         Coordinates(1, 1) to ZERO,
