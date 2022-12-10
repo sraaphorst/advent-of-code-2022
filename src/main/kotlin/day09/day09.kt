@@ -1,7 +1,5 @@
 package day09
 
-import kotlin.math.abs
-
 // By Sebastian Raaphorst, 2022.
 
 typealias Coordinates = Pair<Int, Int>
