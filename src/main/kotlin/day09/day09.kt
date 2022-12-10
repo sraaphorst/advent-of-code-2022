@@ -104,7 +104,7 @@ fun parseInput(data: String): List<Move> =
     data.split('\n')
         .map { it.split(' ') }
         .map { Pair(Move.valueOf(it[0]), it[1].toInt()) }
-        .flatMap { (move, repeat) -> List(repeat) { move} }
+        .flatMap { (move, repeat) -> List(repeat) { move } }
 
 fun problem1(data: List<Move>): Int =
     executeMoves(data, 2)
