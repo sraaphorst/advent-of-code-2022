@@ -1,8 +1,8 @@
 package day08
 
-import kotlin.math.max
-
 // By Sebastian Raaphorst, 2022.
+
+import kotlin.math.max
 
 typealias TreeHeight = Int
 typealias Line = List<TreeHeight>
