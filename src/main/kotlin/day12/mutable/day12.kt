@@ -31,8 +31,6 @@ suspend fun <A, B> Iterable<A>.pmap(f: suspend (A) -> B): List<B> = coroutineSco
 operator fun Coordinates.plus(other: Coordinates): Coordinates =
     Coordinates(this.first + other.first, this.second + other.second)
 
-// This immutable implementation is very slow due to all the copying, so we parallelize for
-// part 2.
 fun findMinPathLength(landscape: Landscape,
                       start: Coordinates,
                       end: Coordinates,
