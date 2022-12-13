@@ -40,6 +40,7 @@ fun findMinPathLength(landscape: Landscape,
     // Get the grid coordinates.
     val height = landscape.maxOf { it.key.first }
     val width = landscape.maxOf { it.key.second }
+    val max = (height + 1) * (width + 1)
 
     fun coordIsValid(point: Coordinates): Boolean =
         point.first in (0 .. height) && point.second in (0 .. width)
@@ -54,27 +55,27 @@ fun findMinPathLength(landscape: Landscape,
             .toSet()
 
     fun smallestUnvisited(distances: Distances, unvisited: Set<Coordinates>): Coordinates =
-        unvisited.minBy { distances.getValue(it) }
+        unvisited.minBy { distances.getOrDefault(it, max) }
 
-    val initialDistances: Distances =
-        (0..height).flatMap {row ->
-            (0 .. width).map { col ->
-                Coordinates(row, col) to (if (Coordinates(row, col) == start) 0 else (width + 1) * (height + 1))
-            } }.toMap()
+    val initialDistances: Distances = mapOf(start to 0)
 
     // Djisktra: I was too concerned about part 2 to just use BFS.
     tailrec fun aux(current: Coordinates = start,
                     distances: Distances = initialDistances,
-                    unvisited: Set<Coordinates> = landscape.keys): Int = when {
-        end == current -> distances.getValue(end)
-        distances.getValue(current) >= bound -> Int.MAX_VALUE
-        else -> {
-            val currentDist: Int = distances.getValue(current)
-            val neighbours: Set<Coordinates> = neighbourhood(current)
-            val newDistances = distances + neighbours.map{ it to min(currentDist + 1, distances.getValue(it))}
-            val newUnvisited: Set<Coordinates> = unvisited - current
-            val nextNode: Coordinates = smallestUnvisited(newDistances, newUnvisited)
-            aux(nextNode, newDistances, newUnvisited)
+                    unvisited: Set<Coordinates> = landscape.keys): Int {
+        val dist = distances.getOrDefault(current, max)
+        return when {
+            end == current -> dist
+            dist >= bound -> Int.MAX_VALUE
+            else -> {
+                val neighbours: Set<Coordinates> = neighbourhood(current)
+                val newDistances = distances + neighbours.map{
+                    it to min(dist + 1, distances.getOrDefault(it, max))
+                }
+                val newUnvisited: Set<Coordinates> = unvisited - current
+                val nextNode: Coordinates = smallestUnvisited(newDistances, newUnvisited)
+                aux(nextNode, newDistances, newUnvisited)
+            }
         }
     }
 
