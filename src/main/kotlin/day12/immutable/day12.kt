@@ -1,4 +1,4 @@
-package day12
+package day12.immutable
 
 // By Sebastian Raaphorst, 2012.
 
@@ -91,7 +91,8 @@ fun parseInput(board: String): Input {
                     current: Coordinates = ZERO,
                     remain: String = board,
                     start: Coordinates = ZERO,
-                    end: Coordinates = ZERO): Input = when {
+                    end: Coordinates = ZERO
+    ): Input = when {
         remain.isEmpty() -> Input(landscape, start, end)
         remain.first() == '\n' ->
             aux(landscape,
@@ -134,6 +135,6 @@ fun main() {
     // Answer 1: 380
     println("Problem 1: ${problem1(input)}")
 
-    // Answer 2:
+    // Answer 2: 375
     println("Problem 2: ${problem2(input)}")
 }
