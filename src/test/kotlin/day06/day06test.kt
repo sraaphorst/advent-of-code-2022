@@ -25,11 +25,11 @@ class Day06Test {
 
     @Test
     fun `Problem 1 example`() {
-        assertEquals(examples1.map(::problem1), listOf(5, 6, 10, 11))
+        assertEquals(listOf(5, 6, 10, 11), examples1.map(::problem1))
     }
 
     @Test
     fun `Problem 2 example`() {
-        assertEquals(examples2.map(::problem2), listOf(19, 23, 23, 29, 26))
+        assertEquals(listOf(19, 23, 23, 29, 26), examples2.map(::problem2))
     }
 }

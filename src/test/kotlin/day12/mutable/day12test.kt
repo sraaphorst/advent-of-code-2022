@@ -2,6 +2,7 @@ package day12.mutable
 
 // By Sebastian Raaphorst, 2022.
 
+import day12.immutable.Day12Test
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -30,19 +31,19 @@ class Day12Test {
             c(4,0) to 0, c(4,1) to 1, c(4,2) to 3, c(4,3) to 4,  c(4,4) to 5,  c(4,5) to 6,  c(4,6) to 7,  c(4,7) to 8)
         val expectedStart = c(0, 0)
         val expectedEnd = c(2, 5)
-        val (board, start, end) = parseInput(board)
-        assertEquals(expectedBoard, board)
-        assertEquals(expectedStart, start)
-        assertEquals(expectedEnd, end)
+        val (board, start, end) = day12.immutable.parseInput(board)
+        assertEquals(board, expectedBoard)
+        assertEquals(start, expectedStart)
+        assertEquals(end, expectedEnd)
     }
 
     @Test
     fun `Part 1 example`() {
-        assertEquals(problem1(input), 31)
+        assertEquals(31, day12.immutable.problem1(input))
     }
 
     @Test
     fun `Part 2 example`() {
-        assertEquals(problem2(input), 29)
+        assertEquals(29, day12.immutable.problem2(input))
     }
 }

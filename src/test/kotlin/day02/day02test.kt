@@ -16,56 +16,56 @@ class Day02Test {
 
     @Test
     fun `ROCK vs ROCK`() {
-        assertEquals(calculateRoundScore(RoundInput(RPS.ROCK, RPS.ROCK)), Score(4, 4))
+        assertEquals(Score(4, 4), calculateRoundScore(RoundInput(RPS.ROCK, RPS.ROCK)))
     }
 
     @Test
     fun `ROCK vs PAPER`() {
-        assertEquals(calculateRoundScore(RoundInput(RPS.ROCK, RPS.PAPER)), Score(1, 8))
+        assertEquals(Score(1, 8), calculateRoundScore(RoundInput(RPS.ROCK, RPS.PAPER)))
     }
 
     @Test
     fun `ROCK vs SCISSORS`() {
-        assertEquals(calculateRoundScore(RoundInput(RPS.ROCK, RPS.SCISSORS)), Score(7, 3))
+        assertEquals( Score(7, 3), calculateRoundScore(RoundInput(RPS.ROCK, RPS.SCISSORS)))
     }
 
     @Test
     fun `PAPER vs ROCK`() {
-        assertEquals(calculateRoundScore(RoundInput(RPS.PAPER, RPS.ROCK)), Score(8, 1))
+        assertEquals(Score(8, 1), calculateRoundScore(RoundInput(RPS.PAPER, RPS.ROCK)))
     }
 
     @Test
     fun `PAPER vs PAPER`() {
-        assertEquals(calculateRoundScore(RoundInput(RPS.PAPER, RPS.PAPER)), Score(5, 5))
+        assertEquals(Score(5, 5), calculateRoundScore(RoundInput(RPS.PAPER, RPS.PAPER)))
     }
 
     @Test
     fun `PAPER vs SCISSORS`() {
-        assertEquals(calculateRoundScore(RoundInput(RPS.PAPER, RPS.SCISSORS)), Score(2, 9))
+        assertEquals(Score(2, 9), calculateRoundScore(RoundInput(RPS.PAPER, RPS.SCISSORS)))
     }
 
     @Test
     fun `SCISSORS vs ROCK`() {
-        assertEquals(calculateRoundScore(RoundInput(RPS.SCISSORS, RPS.ROCK)), Score(3, 7))
+        assertEquals(Score(3, 7), calculateRoundScore(RoundInput(RPS.SCISSORS, RPS.ROCK)))
     }
 
     @Test
     fun `SCISSORS vs PAPER`() {
-        assertEquals(calculateRoundScore(RoundInput(RPS.SCISSORS, RPS.PAPER)), Score(9, 2))
+        assertEquals(Score(9, 2), calculateRoundScore(RoundInput(RPS.SCISSORS, RPS.PAPER)))
     }
 
     @Test
     fun `SCISSORS vs SCISSORS`() {
-        assertEquals(calculateRoundScore(RoundInput(RPS.SCISSORS, RPS.SCISSORS)), Score(6, 6))
+        assertEquals(Score(6, 6), calculateRoundScore(RoundInput(RPS.SCISSORS, RPS.SCISSORS)))
     }
 
     @Test
     fun `Problem 1 example`() {
-        assertEquals(problem1(data), 15)
+        assertEquals(15, problem1(data))
     }
 
     @Test
     fun `Problem 2 example`() {
-        assertEquals(problem2(data), 12)
+        assertEquals(12, problem2(data))
     }
 }

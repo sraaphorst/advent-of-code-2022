@@ -36,16 +36,16 @@ class Day09Test {
 
     @Test
     fun `Problem 1 example`() {
-        assertEquals(problem1(data1), 13)
+        assertEquals(13, problem1(data1))
     }
 
     @Test
     fun `Problem 2 example 1`() {
-        assertEquals(problem2(data1), 1)
+        assertEquals(1, problem2(data1))
     }
 
     @Test
     fun `Problem 2 example 2`() {
-        assertEquals(problem2(data2), 36)
+        assertEquals(36, problem2(data2))
     }
 }
