@@ -35,7 +35,8 @@ class Day13Test {
         """.trimIndent()
 
         // I don't know why, but this code with the scripting engine is very, very fussy.
-        // We need to redeclare the parser here or it fails with an exception.
+        // We need to redeclare the parser here.
+        // Using the parser in day13 results in an exception.
         @Suppress("UNCHECKED_CAST")
         private fun parseTestInput(data: String): Input {
             // If we don't have this line, for some reason, we get an exception.

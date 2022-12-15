@@ -58,49 +58,18 @@ fun parseInput(data: String): Input {
 fun problem1(input: Input): Int =
     input.withIndex().sumOf { (idx, pair) ->
         val (left, right) = pair
+        println("*** COMPARING $left AND $right ****")
         val result = comparePair(left, right)
+        println("Result is $result, idx=${idx+1}")
         if (result) idx + 1 else 0
     }
 
 
 fun main() {
-    val data = """
-        [1,1,3,1,1]
-        [1,1,5,1,1]
+    val input = parseInput(object {}.javaClass.getResource("/aoc202213.txt")!!.readText())
 
-        [[1],[2,3,4]]
-        [[1],4]
+    println("--- Day 13: Distress Signal ---")
 
-        [9]
-        [[8,7,6]]
-
-        [[4,4],4,4]
-        [[4,4],4,4,4]
-
-        [7,7,7,7]
-        [7,7,7]
-
-        []
-        [3]
-
-        [[[]]]
-        [[]]
-
-        [1,[2,[3,[4,[5,6,7]]]],8,9]
-        [1,[2,[3,[4,[5,6,0]]]],8,9]
-    """.trimIndent()
-//    ScriptEngineManager().engineFactories.forEach{println(it.extensions)}
-//    val engine = ScriptEngineManager().getEngineByExtension("kts")!!
-//    val myList = engine.eval("listOf(2, listOf(3, 4), listOf(5, 6, listOf(7, 8)))")
-//    (myList as List<Any>).withIndex().forEach{println(it)}
-    val input = parseInput(data)
-    input.forEach {
-        val (left, right) = it
-        val comp = comparePair(left, right)
-        println("\tAnswer: $comp")
-        println()
-    }
-
-    println("Problem 1:")
-    println(problem1(input))
+    // Answer: 284 TOO LOW
+    println("Problem 1: ${problem1(input)}")
 }

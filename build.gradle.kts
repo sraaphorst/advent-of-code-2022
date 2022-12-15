@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.7.20"
     application
-//    base
 }
 
 group = "me.sraaphorst"
@@ -26,7 +25,6 @@ dependencies {
 //    testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
 //    testImplementation("org.jetbrains.kotlin:kotlin-script-util")
 //    testImplementation("org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable")
-//    implementation("org.jetbrains.kotlin:kotlin-scripting-jsr223:1.4.10")
     runtimeOnly("org.jetbrains.kotlin:kotlin-scripting-jsr223:1.4.10")
 //    testRuntimeOnly("org.jetbrains.kotlin:kotlin-scripting-jsr223:1.4.10")
 }
