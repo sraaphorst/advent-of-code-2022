@@ -5,8 +5,6 @@ package day13
 // We're going to do this dynamically by evaling the strings into List[Any].
 import javax.script.ScriptEngineManager
 
-typealias Input=List<Pair<List<Any>, List<Any>>>
-
 @Suppress("UNCHECKED_CAST")
 fun comparePair(left: Any, right: Any): Int {
     println("Comparing left='$left' and right='$right'")
@@ -38,34 +36,28 @@ fun comparePair(left: Any, right: Any): Int {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun parseInput(data: String): Input {
+fun parseInput(data: String): List<Any> {
     val engine = ScriptEngineManager().getEngineByExtension("kts")!!
     return data
         .replace("[", "listOf<Any>(")
         .replace("]", ")")
         .replace("\n\n", "\n")
         .split('\n')
-        .chunked(2)
-        .map { lst ->
-            val (expr1, expr2) = lst
-            val lst1: List<Any> = engine.eval(expr1) as List<Any>
-            val lst2: List<Any> = engine.eval(expr2) as List<Any>
-            Pair(lst1, lst2)
-        }
+        .map { engine.eval(it) as List<Any> }
 }
 
-fun problem1(input: Input): Int =
-    input.withIndex().sumOf { (idx, pair) ->
+fun problem1(input: List<Any>): Int =
+    input.chunked(2).withIndex().sumOf { (idx, pair) ->
         val (left, right) = pair
         val result = comparePair(left, right)
         if (result <= 0) idx + 1 else 0
     }
 
-fun problem2(input: Input): Int {
-    val two = listOf(listOf(2))
-    val six = listOf(listOf(6))
-
-}
+//fun problem2(input: Input): Int {
+//    val two = listOf(listOf(2))
+//    val six = listOf(listOf(6))
+//
+//}
 
 
 fun main() {
