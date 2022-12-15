@@ -168,12 +168,12 @@ class Day10Test {
 
     @Test
     fun `Small example`() {
-        assertEquals(executeOperations(input1), listOf(1, 1, 1, 4, 4, -1))
+        assertEquals(listOf(1, 1, 1, 4, 4, -1), executeOperations(input1))
     }
 
     @Test
     fun `Problem 1 example`() {
-        assertEquals(problem1(input2), 13140)
+        assertEquals(13140, problem1(input2))
     }
 
     @Test
@@ -186,6 +186,6 @@ class Day10Test {
             ######......######......######......####
             #######.......#######.......#######.....
         """.trimIndent()
-        assertEquals(problem2(input2), expected)
+        assertEquals(expected, problem2(input2))
     }
 }

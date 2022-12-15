@@ -31,18 +31,18 @@ class Day12Test {
         val expectedStart = c(0, 0)
         val expectedEnd = c(2, 5)
         val (board, start, end) = parseInput(board)
-        assertEquals(expectedBoard, board)
-        assertEquals(expectedStart, start)
-        assertEquals(expectedEnd, end)
+        assertEquals(board, expectedBoard)
+        assertEquals(start, expectedStart)
+        assertEquals(end, expectedEnd)
     }
 
     @Test
     fun `Part 1 example`() {
-        assertEquals(problem1(input), 31)
+        assertEquals(31, problem1(input))
     }
 
     @Test
     fun `Part 2 example`() {
-        assertEquals(problem2(input), 29)
+        assertEquals(29, problem2(input))
     }
 }

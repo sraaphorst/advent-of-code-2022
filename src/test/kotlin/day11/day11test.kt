@@ -43,21 +43,21 @@ class Day11Test {
     @Test
     fun `lcm list example 1`() {
         // 15 * 4 * 7 = 420
-        assertEquals(lcm(listOf(2L, 15L, 4L, 3L, 7L)), 420L)
+        assertEquals(420L, lcm(listOf(2L, 15L, 4L, 3L, 7L)))
     }
 
     @Test
     fun `lcm list example 2`() {
-        assertEquals(lcm(listOf(23L, 19L, 13L, 17L)), 96577L)
+        assertEquals(96577L, lcm(listOf(23L, 19L, 13L, 17L)))
     }
 
     @Test
     fun `Problem 1 example`() {
-        assertEquals(problem1(input), 10605UL)
+        assertEquals(10605UL, problem1(input))
     }
 
     @Test
     fun `Problem 2 example`() {
-        assertEquals(problem2(input), 2713310158UL)
+        assertEquals(2713310158UL, problem2(input))
     }
 }

@@ -12,9 +12,7 @@ fun comparePair(left: Any, right: Any): Int {
         (left is Int) && (right is Int) -> left - right
 
         (left is List<*>) && (right is List<*>) -> {
-            if (left.isEmpty() && right.isEmpty()) 0
-            else if (left.isEmpty()) -1
-            else if (right.isEmpty()) 1
+            if (left.isEmpty() || right.isEmpty()) left.size - right.size
             else {
                 val compare = comparePair(left[0]!!, right[0]!!)
                 if (compare != 0) compare
