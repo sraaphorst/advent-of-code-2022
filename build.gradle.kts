@@ -15,6 +15,9 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
+    // Needed for the Java ScriptEngine kts engine. (Day 13)
+    runtimeOnly("org.jetbrains.kotlin:kotlin-scripting-jsr223:1.7.20")
 }
 
 tasks.test {
