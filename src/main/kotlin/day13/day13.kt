@@ -37,9 +37,10 @@ fun comparePair(left: List<Any>, right: List<Any>): Boolean {
 @Suppress("UNCHECKED_CAST")
 fun parseInput(data: String): Input {
     // If we don't have this line, for some reason, we get an exception.
-    ScriptEngineManager().engineFactories
-    val engine = ScriptEngineManager().getEngineByExtension("kts")!!
-
+//    ScriptEngineManager().engineFactories
+//    val engine = ScriptEngineManager().getEngineByExtension("kts")!!
+    val factory = ScriptEngineManager().getEngineByExtension("kts").factory
+    val engine = factory!!.scriptEngine
 
     return data
         .replace("[", "listOf<Any>(")

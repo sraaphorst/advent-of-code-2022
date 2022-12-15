@@ -21,12 +21,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
     implementation("org.jetbrains.kotlin:kotlin-script-util")
     implementation("org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable")
-//    testImplementation("org.jetbrains.kotlin:kotlin-script-runtime")
-//    testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
-//    testImplementation("org.jetbrains.kotlin:kotlin-script-util")
-//    testImplementation("org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable")
-    runtimeOnly("org.jetbrains.kotlin:kotlin-scripting-jsr223:1.4.10")
-//    testRuntimeOnly("org.jetbrains.kotlin:kotlin-scripting-jsr223:1.4.10")
+    runtimeOnly("org.jetbrains.kotlin:kotlin-scripting-jsr223:1.7.20")
 }
 
 tasks.test {
