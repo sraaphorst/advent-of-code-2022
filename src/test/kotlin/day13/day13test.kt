@@ -40,4 +40,9 @@ class Day13Test {
     fun `Problem 1 example`() {
         assertEquals(13, problem1(input))
     }
+
+    @Test
+    fun `Problem 2 example`() {
+        assertEquals(140, problem2(input))
+    }
 }

@@ -2,12 +2,10 @@ package day13
 
 // By Sebastian Raaphorst, 2022.
 
-// We're going to do this dynamically by evaling the strings into List[Any].
+// We're going to do this dynamically by evaluating the strings into List<Any>.
 import javax.script.ScriptEngineManager
 
-@Suppress("UNCHECKED_CAST")
 fun comparePair(left: Any, right: Any): Int {
-    println("Comparing left='$left' and right='$right'")
     return when {
         left == right -> 0
 
@@ -35,7 +33,7 @@ fun comparePair(left: Any, right: Any): Int {
     }
 }
 
-@Suppress("UNCHECKED_CAST")
+// The parsing is very, very slow, but the problems solve extremely quickly once the data is parsed.
 fun parseInput(data: String): List<Any> {
     val engine = ScriptEngineManager().getEngineByExtension("kts")!!
     return data
@@ -43,7 +41,7 @@ fun parseInput(data: String): List<Any> {
         .replace("]", ")")
         .replace("\n\n", "\n")
         .split('\n')
-        .map { engine.eval(it) as List<Any> }
+        .map { engine.eval(it) as List<*> }
 }
 
 fun problem1(input: List<Any>): Int =
@@ -53,11 +51,12 @@ fun problem1(input: List<Any>): Int =
         if (result <= 0) idx + 1 else 0
     }
 
-//fun problem2(input: Input): Int {
-//    val two = listOf(listOf(2))
-//    val six = listOf(listOf(6))
-//
-//}
+fun problem2(input: List<Any>): Int {
+    val two = listOf(listOf(2))
+    val six = listOf(listOf(6))
+    val sorted = (input + listOf(two, six)).sortedWith(::comparePair)
+    return (sorted.indexOf(two) + 1) * (sorted.indexOf(six) + 1)
+}
 
 
 fun main() {
@@ -65,6 +64,9 @@ fun main() {
 
     println("--- Day 13: Distress Signal ---")
 
-    // Answer: 5503
+    // Answer 1: 5503
     println("Problem 1: ${problem1(input)}")
+
+    // Answer 2: 20952
+    println("Problem 2: ${problem2(input)}")
 }
