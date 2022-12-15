@@ -3,31 +3,34 @@ package day13
 // By Sebastian Raaphorst, 2022.
 
 // We're going to do this dynamically by evaling the strings into List[Any].
-// Note that the resources/META-INF/services/javax.script.ScriptEngineFactory
-// file is absolutely essential to dynamically eval Kotlin code.
-
 import javax.script.ScriptEngineManager
 
 typealias Input=List<Pair<List<Any>, List<Any>>>
 
 @Suppress("UNCHECKED_CAST")
-fun comparePair(left: List<Any>, right: List<Any>): Boolean {
+fun comparePair(left: Any, right: Any): Int {
     println("Comparing left='$left' and right='$right'")
     return when {
-        left.isEmpty() -> true
-        right.isEmpty() -> false
-        (left[0] is Int) && (right[0] is Int) ->
-            ((left[0] as Int) < (right[0] as Int)) ||
-                    ((left[0] as Int) == (right[0] as Int) && comparePair(left.drop(1), right.drop(1)))
+        left == right -> 0
 
-        (left[0] is List<*>) && (right[0] is List<*>) ->
-            comparePair(left[0] as List<Any>, right[0] as List<Any>) && comparePair(left.drop(1), right.drop(1))
+        (left is Int) && (right is Int) -> left - right
 
-        (left[0] is Int) && (right[0] is List<*>) ->
-            comparePair(listOf(left[0]), right[0] as List<Any>) && comparePair(left.drop(1), right.drop(1))
+        (left is List<*>) && (right is List<*>) -> {
+            if (left.isEmpty() && right.isEmpty()) 0
+            else if (left.isEmpty()) -1
+            else if (right.isEmpty()) 1
+            else {
+                val compare = comparePair(left[0]!!, right[0]!!)
+                if (compare != 0) compare
+                else comparePair(left.drop(1), right.drop(1))
+            }
+        }
 
-        (left[0] is List<*>) && (right[0] is Int) ->
-            comparePair(left[0] as List<Any>, listOf(right[0])) && comparePair(left.drop(1), right.drop(1))
+        (left is Int) && (right is List<*>) ->
+            comparePair(listOf(left), right)
+
+        (left is List<*>) && (right is Int) ->
+            comparePair(left, listOf(right))
 
         else ->
             throw IllegalArgumentException("Illegal arguments: left='$left', right='$right'")
@@ -36,12 +39,7 @@ fun comparePair(left: List<Any>, right: List<Any>): Boolean {
 
 @Suppress("UNCHECKED_CAST")
 fun parseInput(data: String): Input {
-    // If we don't have this line, for some reason, we get an exception.
-//    ScriptEngineManager().engineFactories
-//    val engine = ScriptEngineManager().getEngineByExtension("kts")!!
-    val factory = ScriptEngineManager().getEngineByExtension("kts").factory
-    val engine = factory!!.scriptEngine
-
+    val engine = ScriptEngineManager().getEngineByExtension("kts")!!
     return data
         .replace("[", "listOf<Any>(")
         .replace("]", ")")
@@ -59,11 +57,15 @@ fun parseInput(data: String): Input {
 fun problem1(input: Input): Int =
     input.withIndex().sumOf { (idx, pair) ->
         val (left, right) = pair
-        println("*** COMPARING $left AND $right ****")
         val result = comparePair(left, right)
-        println("Result is $result, idx=${idx+1}")
-        if (result) idx + 1 else 0
+        if (result <= 0) idx + 1 else 0
     }
+
+fun problem2(input: Input): Int {
+    val two = listOf(listOf(2))
+    val six = listOf(listOf(6))
+
+}
 
 
 fun main() {
@@ -71,6 +73,6 @@ fun main() {
 
     println("--- Day 13: Distress Signal ---")
 
-    // Answer: 284 TOO LOW
+    // Answer: 5503
     println("Problem 1: ${problem1(input)}")
 }
