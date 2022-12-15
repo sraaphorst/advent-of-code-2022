@@ -5,8 +5,7 @@ package day13
 // We're going to do this dynamically by evaluating the strings into List<Any>.
 import javax.script.ScriptEngineManager
 
-fun comparePair(left: Any, right: Any): Int {
-    return when {
+fun comparePair(left: Any, right: Any): Int = when {
         left == right -> 0
 
         (left is Int) && (right is Int) -> left - right
@@ -29,7 +28,6 @@ fun comparePair(left: Any, right: Any): Int {
         else ->
             throw IllegalArgumentException("Illegal arguments: left='$left', right='$right'")
     }
-}
 
 // The parsing is very, very slow, but the problems solve extremely quickly once the data is parsed.
 fun parseInput(data: String): List<Any> {
