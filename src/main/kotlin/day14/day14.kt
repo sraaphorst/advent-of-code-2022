@@ -2,6 +2,7 @@ package day14
 
 // By Sebastian Raaphorst, 2022.
 
+import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
 
@@ -22,23 +23,21 @@ fun minmax(c1: Coordinates, c2: Coordinates): Pair<Pair<Int, Int>, Pair<Int, Int
 operator fun Coordinates.plus(other: Pair<Int, Int>): Coordinates =
     Coordinates(this.first + other.first, this.second + other.second)
 
-fun sandFall(originalCave: Cave): Cave {
+fun sandFall(originalCave: Cave): Int {
     // Get the lowest height of the cave, where the void begins.
     val voidRow = originalCave.maxOf(Coordinates::second)
 
-    tailrec fun aux(cave: Cave = originalCave, sand: Coordinates = SandPosition): Cave {
-        println("Sand at $sand, voidRow=$voidRow")
+    tailrec fun aux(cave: Cave = originalCave, numSand: Int = 0, sand: Coordinates = SandPosition): Int {
         return when {
-            sand.second >= voidRow -> cave
-            ((sand + S) !in cave) -> aux(cave, (sand + S))
-            ((sand + SW) !in cave) -> aux(cave, (sand + SW))
-            ((sand + SE) !in cave) -> aux(cave, (sand + SE))
-            else -> { println()
-                if (sand == SandPosition) (cave + sand)
-                else aux(cave + sand) }
+            sand.second >= voidRow -> numSand
+            ((sand + S) !in cave) -> aux(cave, numSand, (sand + S))
+            ((sand + SW) !in cave) -> aux(cave, numSand, (sand + SW))
+            ((sand + SE) !in cave) -> aux(cave, numSand, (sand + SE))
+            else -> {
+                if (sand == SandPosition) numSand + 1
+                else aux(cave + sand, numSand + 1) }
         }
     }
-
     return aux()
 }
 
@@ -67,12 +66,17 @@ fun parseInput(data: String): Cave =
         }.toSet()
 
 fun problem1(cave: Cave) =
-    sandFall(cave).size - cave.size
+    sandFall(cave)
 
-//fun problem2(cave: Cave) {
-//    // Add the floor to the cave.
-//    val floorRow =
-//}
+fun problem2(cave: Cave): Int {
+    val floorRow = cave.maxOf(Coordinates::second) + 2
+    val minCol = cave.minOf(Coordinates::first)
+    val maxCol = cave.maxOf(Coordinates::first)
+    return sandFall(cave +
+            (minCol - minCol.absoluteValue..maxCol + maxCol.absoluteValue).map {
+                    col -> Coordinates(col, floorRow)
+            })
+}
 
 fun main() {
     val cave = parseInput(object {}.javaClass.getResource("/aoc202214.txt")!!.readText())
@@ -81,4 +85,7 @@ fun main() {
 
     // Answer 1: 817
     println("Problem 1: ${problem1(cave)}")
+
+    // Answer 2: 23416
+    println("Problem 2: ${problem2(cave)}")
 }

@@ -46,4 +46,9 @@ class Day14Test {
     fun `Problem 1 example`() {
         assertEquals(24, problem1(cave))
     }
+
+    @Test
+    fun `Problem 2 example`() {
+        assertEquals(93, problem2(cave))
+    }
 }
