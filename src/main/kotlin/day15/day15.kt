@@ -26,14 +26,13 @@ operator fun List<IntRange>.plus(newRange: IntRange): List<IntRange> {
     // otherwise, the inverted insertion point (-insertion point - 1).
     // The insertion point is defined as the index at which the element should be inserted,
     // so that the list (or the specified subrange of list) still remains sorted.
+    // Unsure why sometimes -it - 1 = -1, i.e. it = 0, i.e. insertion point = -1?
     val lowIdx = binarySearch { it.last.compareTo(newRange.first - 1) }
         .let { -it - 1 }
         .coerceAtLeast(0)
-//    val lowIdx2 = binarySearch { it.last.compareTo(newRange.first - 1) }.let { it shr 31 xor it }
     val highIdx = binarySearch(fromIndex = lowIdx) { it.first.compareTo(newRange.last + 1) }
         .let { -it - 1 }
         .coerceAtLeast(0)
-//    val highIdx2 = binarySearch(fromIndex = lowIdx) { it.first.compareTo(newRange.last + 1) }.let { it shr 31 xor it }
     val mergedRange = if (lowIdx < highIdx)
         min(this[lowIdx].first, newRange.first)..max(this[highIdx-1].last, newRange.last)
     else
@@ -79,54 +78,26 @@ fun findNumPosNoBeaconInRow(sensorData: Iterable<SensorData>, row: Int = 2000000
     }.let { (beaconPosInRow, intRanges) -> intRanges.sumOf { it.last - it.first + 1} - beaconPosInRow.size }
 
 fun findBeacon(sensorData: Iterable<SensorData>, maxSize: Int): Long = sequence {
-//    for (row in 0..maxSize) {
-//        val intRanges = sensorData.fold(emptyList<IntRange>()) { ranges, sData ->
-//            val (sensor, _) = sData
-//
-//            // Determine the distance from the sensor to the row and then how far down the row
-//            // in each direction the beacon can detect, which gives an IntRange if it is non-negative.
-//            val distanceToRow = (sensor.second - row).absoluteValue
-//            val possibleDistance = sData.manhattanDistance - distanceToRow
-//            val low = (sensor.first - possibleDistance).coerceAtLeast(0)
-//            val high = (sensor.first + possibleDistance).coerceAtMost(0)
-//            if (low <= high) (ranges + (low..high)) else ranges
-//        }
-//
-//        // Search for space between the ranges for an unoccupied cell.
-//        // Note MaxPos is Long so the yields return Long.
-//        val high = intRanges.fold(0) { prev, range ->
-//            for (col in prev until range.first) yield(MaxPos * col + row)
-//            range.last + 1
-//        }
-//
-//        for (col in high..maxSize) yield(MaxPos * col + row)
-//    }
     for (row in 0..maxSize) {
         val ranges = sensorData.fold(emptyList<IntRange>()) { ranges, sData ->
             val (sensor, _) = sData
-//            print("\nITERATION: $ranges, $sData")
+
             // Determine the distance from the sensor to the row and then how far down the row
             // in each direction the beacon can detect, which gives an IntRange if it is non-negative.
             val distanceToRow = (sensor.second - row).absoluteValue
-//            println("\tdistanceToRow: $distanceToRow")
             val possibleDistance = sData.manhattanDistance - distanceToRow
-//            println("\tpossibleDistance: $possibleDistance")
             val low = (sensor.first - possibleDistance).coerceAtLeast(0)
             val high = (sensor.first + possibleDistance).coerceAtMost(maxSize)
             if (low <= high) (ranges + (low..high)) else ranges
         }
-//        println("** Row: $row Ranges: $ranges")
-        val hi = ranges.fold(0) { prev, range ->
-            for (col in prev until range.first) {
-//                println("**** $row $col")
-                yield(MaxPos * col + row)
-            }
+
+        // Search for space between the ranges for an unoccupied cell.
+        // Note MaxPos is Long so the yields return Long.
+        val high = ranges.fold(0) { prev, range ->
+            for (col in prev until range.first) yield(MaxPos * col + row)
             range.last + 1
         }
-        for (col in hi..maxSize) {
-//            println("****2 $row $col")
-            yield(MaxPos * col + row)
-        }
+        for (col in high..maxSize) yield(MaxPos * col + row)
     }
 }.single()
 
