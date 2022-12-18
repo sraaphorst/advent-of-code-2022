@@ -92,7 +92,6 @@ fun findBeacon(sensorData: Iterable<SensorData>, maxSize: Int): Long =
         }
 
         // Search for space between the ranges for an unoccupied cell.
-        // Note MaxPos is Long so the yields return Long.
         ranges.fold(Pair<Int, Int?>(0, null)) { prevData, range ->
             val (prev, missing) = prevData
             if (missing != null)
