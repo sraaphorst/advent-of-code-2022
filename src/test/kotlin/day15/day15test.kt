@@ -34,6 +34,6 @@ class Day15Test {
 
     @Test
     fun `Part 2 example`() {
-        assertEquals(56000011, problem2(input, 0, 20))
+        assertEquals(56000011, problem2(input, 20))
     }
 }
