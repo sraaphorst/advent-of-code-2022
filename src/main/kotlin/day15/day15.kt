@@ -77,32 +77,8 @@ fun findNumPosNoBeaconInRow(sensorData: Iterable<SensorData>, row: Int = 2000000
         Pair(newBeaconPosInRow, newRanges)
     }.let { (beaconPosInRow, intRanges) -> intRanges.sumOf { it.last - it.first + 1} - beaconPosInRow.size }
 
-fun findBeacon2(sensorData: Iterable<SensorData>, maxSize: Int): Long = sequence {
-    for (row in 0..maxSize) {
-        val ranges = sensorData.fold(emptyList<IntRange>()) { ranges, sData ->
-            val (sensor, _) = sData
-
-            // Determine the distance from the sensor to the row and then how far down the row
-            // in each direction the beacon can detect, which gives an IntRange if it is non-negative.
-            val distanceToRow = (sensor.second - row).absoluteValue
-            val possibleDistance = sData.manhattanDistance - distanceToRow
-            val low = (sensor.first - possibleDistance).coerceAtLeast(0)
-            val high = (sensor.first + possibleDistance).coerceAtMost(maxSize)
-            if (low <= high) (ranges + (low..high)) else ranges
-        }
-
-        // Search for space between the ranges for an unoccupied cell.
-        // Note MaxPos is Long so the yields return Long.
-        val high = ranges.fold(0) { prev, range ->
-            for (col in prev until range.first) yield(MaxPos * col + row)
-            range.last + 1
-        }
-        for (col in high..maxSize) yield(MaxPos * col + row)
-    }
-}.single()
-
 fun findBeacon(sensorData: Iterable<SensorData>, maxSize: Int): Long =
-    (0..maxSize).map { row ->
+    (0..maxSize).firstNotNullOf { row ->
         val ranges = sensorData.fold(emptyList<IntRange>()) { ranges, sData ->
             val (sensor, _) = sData
 
@@ -126,7 +102,7 @@ fun findBeacon(sensorData: Iterable<SensorData>, maxSize: Int): Long =
             else
                 Pair(range.last + 1, null)
         }.second?.let { MaxPos * it + row }
-    }.find { it != null }.let { it!! }
+    }
 
 
 fun problem1(data: Iterable<SensorData>, row: Int = 2000000) =
